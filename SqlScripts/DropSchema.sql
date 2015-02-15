@@ -15,3 +15,9 @@ WHERE object_id = OBJECT_ID(N'States') AND type in (N'U'))
 BEGIN
 drop table States
 END
+
+IF  EXISTS (SELECT * FROM sys.objects 
+WHERE object_id = OBJECT_ID(N'TimeSlotTypes') AND type in (N'U'))
+BEGIN
+drop table TimeSlotTypes
+END

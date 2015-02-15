@@ -1,4 +1,13 @@
 IF  NOT EXISTS (SELECT * FROM sys.objects 
+WHERE object_id = OBJECT_ID(N'[TimeSlotTypes]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [TimeSlotTypes]
+(
+	[TimeSlotTypeId]  int identity(1,1) not null
+	[TimeSlot] varchar(20) not null -- only 3 types - range, exact, both
+)
+
+IF  NOT EXISTS (SELECT * FROM sys.objects 
 WHERE object_id = OBJECT_ID(N'[States]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [States]
@@ -31,43 +40,16 @@ CREATE TABLE [Restaurants]
 	[RestaurantId]	   int identity(1,1) NOT NULL,
 	[RestName]               varchar(255)  NOT NULL ,
 	[PinCode]           varchar(10)  NULL ,
-	[StateId]           int  NOT NULL ,
 	[Address]            varchar(500)  NULL ,
 	[Mobile]             varchar(20)  NULL ,
 	[BusinessPhoneNo]    varchar(20)  NULL,
 	[CityId]			int not null,
 	[TimeSlotTypeId]	int not null,
-	CONSTRAINT fk1_child FOREIGN KEY (parent_id)
-      REFERENCES parent (parent_id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE CASCADE
+	CONSTRAINT fk1_Restaurants_CityId FOREIGN KEY (CityId)
+      REFERENCES Cities (CityId) ,
+    CONSTRAINT fk1_Restaurants_TimeSlotTypeId FOREIGN KEY (TimeSlotTypeId)
+      REFERENCES TimeSlotTypes (TimeSlotTypeId) 
 )
  ALTER TABLE [Restaurants]
  	ADD CONSTRAINT [XPKRestaurants] PRIMARY KEY  CLUSTERED ([RestaurantId] ASC)
  END
-
-
-
--- ALTER TABLE [Referrers]
--- 	ADD CONSTRAINT [R_11] FOREIGN KEY ([HospitalEmpanelledWith]) REFERENCES [Hospitals]([HospitalId])
--- 		ON DELETE NO ACTION
--- 		ON UPDATE NO ACTION
-
--- ALTER TABLE [Referrers]
--- 	ADD CONSTRAINT [R_6] FOREIGN KEY ([AcquaintanceId]) REFERENCES [Acquaintances]([AcquaintanceId])
--- 		ON DELETE NO ACTION
--- 		ON UPDATE NO ACTION
-
--- ALTER TABLE [Visits]
--- 	ADD CONSTRAINT [R_9] FOREIGN KEY ([ReferrerId]) REFERENCES [Referrers]([ReferrerId])
--- 		ON DELETE NO ACTION
--- 		ON UPDATE NO ACTION
-
--- ALTER TABLE [Visits]
--- 	ADD CONSTRAINT [R_10] FOREIGN KEY ([SalesPersonId]) REFERENCES [SalesPersons]([SalesPersonId])
--- 		ON DELETE NO ACTION
--- 		ON UPDATE NO ACTION
-		
--- ALTER TABLE [Visits]
--- 	ADD CONSTRAINT [R_12] FOREIGN KEY ([VisitStatus]) REFERENCES [ReferralStatuses]([ReferralStatusesId])
--- 		ON DELETE NO ACTION
--- 		ON UPDATE NO ACTION
