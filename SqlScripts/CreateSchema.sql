@@ -1,3 +1,9 @@
+--TO DO (trying to capture what was on the board)
+--Availability table (this is gng to be an in-mem data structure we can add and negate number of tables) (dynamic)
+--seating arrangement - static table, 1 through 16, ref in main table (static) 
+--time slot table for rests - only entries for rests that have mixed type or range type (static)
+--main booking table - where actual bookings take place (again possibly gng to be an in-mem structure)
+
 IF  NOT EXISTS (SELECT * FROM sys.objects 
 WHERE object_id = OBJECT_ID(N'[TimeSlotTypes]') AND type in (N'U'))
 BEGIN
